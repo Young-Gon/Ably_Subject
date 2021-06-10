@@ -40,19 +40,20 @@
             android:id="@+id/textViewDiscountRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="@{(product.price == product.actual_price)? `` : @string/discount_rate((float)(product.actual_price - product.actual_price)/(float)product.actual_price*100f)}"
+            android:text="@{(product.price == product.actual_price)? `` : @string/discount_rate((int)((float)(product.actual_price - product.price)*100f/(float)product.actual_price))}"
             android:textColor="@color/watermelon"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingEnd="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/materialCardView"
-            tools:text="10%"/>
+            tools:text="10%" />
 
         <TextView
             android:id="@+id/textViewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:text="@{@string/price_format(product.price)}"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -70,6 +71,7 @@
             android:textColor="@color/brownish_grey"
             android:textSize="11sp"
             android:textStyle="normal"
+            android:text="@{product.id+`: `+product.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewDiscountRate"

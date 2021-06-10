@@ -2,5 +2,6 @@
     <string name="app_name">Ably Subject</string>
     <string name="gnb_title_01_home">홈</string>
     <string name="gnb_title_02_favorites">좋아요</string>
-    <string name="discount_rate">%d%</string>
+    <string name="discount_rate">%d%%</string>
+    <string name="price_format">%,d</string>
 </resources>

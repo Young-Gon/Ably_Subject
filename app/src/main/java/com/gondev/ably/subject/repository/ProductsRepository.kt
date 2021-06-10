@@ -23,7 +23,7 @@ class ProductsRepositoryImpl  @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     override val pager = Pager(
-        config = PagingConfig(pageSize = 50),
+        config = PagingConfig(pageSize = 10),
         remoteMediator = ProductsListRemoteMediator(database, api)
     ) {
         productDao.pagingSource()
@@ -43,9 +43,9 @@ class ProductsListRemoteMediator(
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
-                REFRESH -> null
+                REFRESH -> null.also { Timber.v("REFRESH") }
                 PREPEND ->
-                    return MediatorResult.Success(endOfPaginationReached = true)
+                    return MediatorResult.Success(endOfPaginationReached = true).also { Timber.v("PREPEND") }
                 APPEND -> {
                     val lastItem = state.lastItemOrNull()
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
@@ -53,18 +53,21 @@ class ProductsListRemoteMediator(
                     lastItem.id
                 }
             }
+            Timber.v("loadkey=$loadKey")
 
             val (banners, productList) = loadKey?.let { api.fetchGetProductList(it) }?: api.fetchGetFirstProductList()
 
             database.withTransaction {
                 // TODO 베너 추가
                 if (loadType == LoadType.REFRESH) {
+                    Timber.e("clear db")
                     productDao.clearAll()
                 }
 
                 productDao.insertAll(productList)
             }
 
+            Timber.v("productList.size=${productList.size}, endOfPaginationReached = ${productList.size < 10}")
             MediatorResult.Success(endOfPaginationReached = productList.size < 10)
         } catch (e: Exception) {
             Timber.e(e)

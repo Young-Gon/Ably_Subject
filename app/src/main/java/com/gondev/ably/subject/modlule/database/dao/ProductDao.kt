@@ -17,6 +17,6 @@ interface ProductDao {
     @Query("SELECT * FROM product")
     fun pagingSource(): PagingSource<Int, ProductEntity>
 
-    @Query("DELETE FROM product WHERE favorite == 0")
+    @Query("DELETE FROM product WHERE favorite == 'false'")
     suspend fun clearAll()
 }
