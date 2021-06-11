@@ -1,6 +1,5 @@
 package com.gondev.ably.subject.modlule.database.entify
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -42,7 +41,6 @@ data class ProductEntity(
     override val price: Int,
     override val is_new: Boolean,
     override val sell_count: Int,
-    @ColumnInfo(defaultValue = "0")
     override val favorite: Boolean,
 ) : IProductEntity
 

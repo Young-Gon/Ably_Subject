@@ -17,8 +17,8 @@ interface ProductsRepository{
 }
 
 class ProductsRepositoryImpl  @Inject constructor(
-    val database: AppDatabase,
-    val api: ProductsAPI,
+    database: AppDatabase,
+    api: ProductsAPI,
 ):ProductsRepository {
     private val productDao = database.getProductDao()
     private val bannerDao = database.getBannerDao()
@@ -72,7 +72,21 @@ class ProductsListRemoteMediator(
                     bannerDao.insertAll(banners)
                 }
 
-                productDao.insertAll(productList)
+                val favorites = productDao.findAllByFavorites()
+                val productEntityList= productList.map {  product ->
+                    ProductEntity(
+                        id = product.id,
+                        name = product.name,
+                        image = product.image,
+                        actual_price = product.actual_price,
+                        price = product.price,
+                        is_new = product.is_new,
+                        sell_count = product.sell_count,
+                        favorite = favorites.any { it.id == product.id }
+                    )
+                }
+
+                productDao.insertAll(productEntityList)
             }
 
             Timber.v("productList.size=${productList.size}, endOfPaginationReached = ${productList.size < 10}")

@@ -3,6 +3,7 @@ package com.gondev.ably.subject.util
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.adapters.ListenerUtil
@@ -29,6 +30,13 @@ fun interface ItemClickListener<T> {
 }
 
 @BindingAdapter("items")
+fun <T> RecyclerView.setItems(items: List<T>?) {
+    (this.adapter as? ListAdapter<T, *>)?.run {
+        submitList(items)
+    }
+}
+
+@BindingAdapter("items")
 fun <T> ViewPager2.setItems(items: List<T>?) {
     (this.adapter as? ListAdapter<T, *>)?.run {
         submitList(items)
@@ -37,7 +45,7 @@ fun <T> ViewPager2.setItems(items: List<T>?) {
 
 @BindingAdapter("onPageScrollStateChanged")
 fun ViewPager2.setOnPageScrolledListener(onPageScrollStateChangedListener: OnPageScrolledListener) {
-    val onPageChangeListener= object : ViewPager2.OnPageChangeCallback(){
+    val onPageChangeListener = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             onPageScrollStateChangedListener.onPageSelected(position)
@@ -53,7 +61,7 @@ fun ViewPager2.setOnPageScrolledListener(onPageScrollStateChangedListener: OnPag
     registerOnPageChangeCallback(onPageChangeListener)
 }
 
-interface OnPageScrolledListener {
+fun interface OnPageScrolledListener {
     fun onPageSelected(position: Int)
 }
 
@@ -67,9 +75,11 @@ fun ImageView.loadThumbnail(src: String?) {
     var glide = Glide.with(context).load(src)
 
     if (src.endsWith("gif"))
-        glide = glide.optionalTransform(WebpDrawable::class.java, WebpDrawableTransformation(
-            CenterCrop()
-        ))
+        glide = glide.optionalTransform(
+            WebpDrawable::class.java, WebpDrawableTransformation(
+                CenterCrop()
+            )
+        )
 
     glide.apply(getGlideRequestOption(src))
         //.transform(FitCenter(), RoundedCorners(30))
@@ -86,7 +96,10 @@ fun getGlideRequestOption(imageName: String) =
         .signature(ObjectKey(imageName))
         //.override(1024, 2048)
 
-
+@BindingAdapter("checked")
+fun Button.setCheckedItem(checked: Boolean) {
+    this.isSelected = checked
+}
 
 fun Int.dp(res: Resources): Int {
     val resultPix = TypedValue.applyDimension(

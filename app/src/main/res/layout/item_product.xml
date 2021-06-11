@@ -5,16 +5,16 @@
     tools:showIn="@layout/fragment_home">
 
     <data class="ProductItemBinding">
-        <import type="com.gondev.ably.subject.modlule.database.entify.IProductEntity" />
+        <import type="com.gondev.ably.subject.modlule.database.entify.ProductType" />
         <import type="android.view.View" />
 
         <variable
             name="product"
-            type="IProductEntity" />
+            type="ProductType" />
 
         <variable
             name="favoriteClickListener"
-            type="com.gondev.ably.subject.util.ItemClickListener&lt;IProductEntity>" />
+            type="com.gondev.ably.subject.util.ItemClickListener&lt;ProductType>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +42,23 @@
                 android:scaleType="centerCrop"
                 app:imgUrl="@{product.image}"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
         </com.google.android.material.card.MaterialCardView>
+
+        <Button style="@style/Widget.AblySubject.Button.TextButton.Capsule"
+            android:id="@+id/floatingActionButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:elevation="1dp"
+            app:checked="@{product.favorite}"
+            android:onClick="@{(v)->favoriteClickListener.onItemClicked(v, product)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:icon="@drawable/selector_zzim"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@null"/>
 
         <TextView
             android:id="@+id/textViewDiscountRate"

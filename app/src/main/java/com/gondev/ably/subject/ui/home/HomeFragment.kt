@@ -26,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -53,17 +54,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 override fun areContentsTheSame(oldItem: ListType, newItem: ListType) =
                     oldItem == newItem
 
+                override fun getChangePayload(oldItem: ListType, newItem: ListType): Any? {
+                    return if (oldItem is ProductType
+                            && newItem is ProductType
+                            && oldItem.favorite != newItem.favorite)
+                        newItem.favorite
+                    else
+                        null
+                }
             }) {
             // 베너
-            subType<BannerType, BannerViewPagerBinding>(R.layout.item_header_viewpager, null){
+            addSubType<BannerType, BannerViewPagerBinding>(R.layout.item_header_viewpager, null) {
 
                 vm = viewModel
                 viewpager.adapter = DataBindingListAdapter<BannerEntity, BannerItemBinding>(
                     viewLifecycleOwner,
                     R.layout.item_banner,
                     BR.banner,
-                    object : DiffUtil.ItemCallback<BannerEntity>(){
-                        override fun areItemsTheSame(oldItem: BannerEntity, newItem: BannerEntity)=
+                    object : DiffUtil.ItemCallback<BannerEntity>() {
+                        override fun areItemsTheSame(oldItem: BannerEntity, newItem: BannerEntity) =
                             oldItem.id == newItem.id
 
                         override fun areContentsTheSame(oldItem: BannerEntity, newItem: BannerEntity) =
@@ -74,20 +83,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
 
             // 제품 목록
-            subType<ProductType, ProductItemBinding>(R.layout.item_product, BR.product) {
+            addSubType<ProductType, ProductItemBinding>(R.layout.item_product, BR.product) {
                 favoriteClickListener = viewModel
             }
         }
 
         binding.recyclerview.adapter = adapter
 
-        (binding.recyclerview.layoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
-            override fun getSpanSize(position: Int): Int {
-                return if(position==0) 2 else 1
+        (binding.recyclerview.layoutManager as GridLayoutManager).spanSizeLookup =
+            object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (position == 0) 2 else 1
+                }
             }
-        }
 
-        binding.recyclerview.addItemDecoration(GridSpacingItemDecorator(2, 12.dp(resources),true,1))
+        binding.recyclerview.addItemDecoration(
+            GridSpacingItemDecorator(2, 12.dp(resources), true, 1)
+        )
 
         lifecycleScope.launch {
             viewModel.productList.collectLatest {

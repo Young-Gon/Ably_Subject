@@ -1,5 +1,7 @@
 package com.gondev.ably.subject.di
 
+import com.gondev.ably.subject.repository.FavoritesRepository
+import com.gondev.ably.subject.repository.FavoritesRepositoryImpl
 import com.gondev.ably.subject.repository.ProductsRepository
 import com.gondev.ably.subject.repository.ProductsRepositoryImpl
 import dagger.Binds
@@ -14,7 +16,13 @@ import dagger.hilt.android.scopes.ViewModelScoped
 abstract class DomainModule {
     @Binds
     @ViewModelScoped
-    abstract fun bindImageListRepository(
+    abstract fun bindProductsRepository(
         ProductsRepository: ProductsRepositoryImpl
     ): ProductsRepository
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindFavoritesRepository(
+        favoritesRepository: FavoritesRepositoryImpl
+    ): FavoritesRepository
 }

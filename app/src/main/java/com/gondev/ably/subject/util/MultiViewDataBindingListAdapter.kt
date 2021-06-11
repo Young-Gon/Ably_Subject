@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
 private class MultiViewDataBindingListAdapter<ItemType : Any>(
     private val lifecycleOwner: LifecycleOwner,
     diffUtil: DiffUtil.ItemCallback<ItemType>,
-    private val subclasses: Map<KClass<out ItemType>, SubclassAdapterItem>
+    private val subclasses: Map<KClass<out ItemType>, SubclassAdapterItem>,
 ) : PagingDataAdapter<ItemType, RecyclerViewHolder<ItemType>>(diffUtil) {
 
     override fun getItemViewType(position: Int) =
@@ -60,7 +60,7 @@ class SubTypeRegister<BaseType : Any> internal constructor() {
      * @param init 아이템 데이터바인딩 초기화 블럭
      */
     @Suppress("UNCHECKED_CAST")
-    inline fun <reified ItemType : BaseType, Binding : ViewDataBinding> subType(
+    inline fun <reified ItemType : BaseType, Binding : ViewDataBinding> addSubType(
         @LayoutRes itemRes: Int,
         bindingVariable: Int? = null,
         noinline init: (Binding.() -> Unit)? = null,
