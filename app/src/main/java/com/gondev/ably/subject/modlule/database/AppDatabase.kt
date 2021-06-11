@@ -2,7 +2,9 @@ package com.gondev.ably.subject.modlule.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.gondev.ably.subject.modlule.database.dao.BannerDao
 import com.gondev.ably.subject.modlule.database.dao.ProductDao
+import com.gondev.ably.subject.modlule.database.entify.BannerEntity
 import com.gondev.ably.subject.modlule.database.entify.ProductEntity
 
 /**
@@ -13,7 +15,8 @@ import com.gondev.ably.subject.modlule.database.entify.ProductEntity
  */
 @Database(
     entities = [
-        ProductEntity::class
+        ProductEntity::class,
+        BannerEntity::class,
     ],
     version = 1,
     exportSchema = false
@@ -21,4 +24,5 @@ import com.gondev.ably.subject.modlule.database.entify.ProductEntity
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun getProductDao(): ProductDao
+    abstract fun getBannerDao(): BannerDao
 }

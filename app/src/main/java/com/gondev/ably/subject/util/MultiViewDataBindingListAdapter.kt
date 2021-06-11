@@ -62,7 +62,7 @@ class SubTypeRegister<BaseType : Any> internal constructor() {
     @Suppress("UNCHECKED_CAST")
     inline fun <reified ItemType : BaseType, Binding : ViewDataBinding> subType(
         @LayoutRes itemRes: Int,
-        bindingVariable: Int,
+        bindingVariable: Int? = null,
         noinline init: (Binding.() -> Unit)? = null,
     ) {
         subclasses[ItemType::class] = SubclassAdapterItem(

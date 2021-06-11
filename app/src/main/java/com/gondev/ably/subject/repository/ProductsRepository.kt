@@ -1,25 +1,27 @@
 package com.gondev.ably.subject.repository
 
+import androidx.lifecycle.LiveData
 import androidx.paging.*
 import androidx.paging.LoadType.*
 import androidx.room.withTransaction
 import com.gondev.ably.subject.modlule.database.AppDatabase
-import com.gondev.ably.subject.modlule.database.dao.ProductDao
+import com.gondev.ably.subject.modlule.database.entify.BannerEntity
 import com.gondev.ably.subject.modlule.database.entify.ProductEntity
 import com.gondev.ably.subject.modlule.network.ProductsAPI
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 interface ProductsRepository{
     val pager: Pager<Int, ProductEntity>
+    val banners: LiveData<List<BannerEntity>>
 }
 
 class ProductsRepositoryImpl  @Inject constructor(
     val database: AppDatabase,
     val api: ProductsAPI,
 ):ProductsRepository {
-    private val productDao: ProductDao = database.getProductDao()
+    private val productDao = database.getProductDao()
+    private val bannerDao = database.getBannerDao()
 
     @OptIn(ExperimentalPagingApi::class)
     override val pager = Pager(
@@ -28,6 +30,8 @@ class ProductsRepositoryImpl  @Inject constructor(
     ) {
         productDao.pagingSource()
     }
+
+    override val banners = bannerDao.findAll()
 }
 
 @OptIn(ExperimentalPagingApi::class)
@@ -35,7 +39,8 @@ class ProductsListRemoteMediator(
     private val database: AppDatabase,
     private val api: ProductsAPI,
 ): RemoteMediator<Int, ProductEntity>() {
-    private val productDao: ProductDao = database.getProductDao()
+    private val productDao = database.getProductDao()
+    private val bannerDao = database.getBannerDao()
 
     override suspend fun load(
         loadType: LoadType,
@@ -48,7 +53,7 @@ class ProductsListRemoteMediator(
                     return MediatorResult.Success(endOfPaginationReached = true).also { Timber.v("PREPEND") }
                 APPEND -> {
                     val lastItem = state.lastItemOrNull()
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                        ?: return MediatorResult.Success(endOfPaginationReached = false)
 
                     lastItem.id
                 }
@@ -58,10 +63,13 @@ class ProductsListRemoteMediator(
             val (banners, productList) = loadKey?.let { api.fetchGetProductList(it) }?: api.fetchGetFirstProductList()
 
             database.withTransaction {
-                // TODO 베너 추가
+                // 베너 추가
                 if (loadType == LoadType.REFRESH) {
                     Timber.e("clear db")
                     productDao.clearAll()
+                    bannerDao.clearAll()
+                    
+                    bannerDao.insertAll(banners)
                 }
 
                 productDao.insertAll(productList)

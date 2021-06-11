@@ -70,10 +70,10 @@ import androidx.recyclerview.widget.RecyclerView
  * @see RecyclerViewHolder
  */
 class DataBindingListAdapter<T, V: ViewDataBinding>(
+	private val lifecycleOwner: LifecycleOwner,
 	@LayoutRes private val layoutResId: Int,
 	private val bindingVariableId: Int? = null,
 	diffCallback: DiffUtil.ItemCallback<T>,
-	private val lifecycleOwner: LifecycleOwner? = null,
 	private val init: (V.() -> Unit)? = null
 ) : ListAdapter<T, RecyclerViewHolder<T>>(diffCallback) {
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createRecyclerViewHolder<T, V>(
@@ -91,7 +91,7 @@ class DataBindingListAdapter<T, V: ViewDataBinding>(
 private fun <T, V: ViewDataBinding> createRecyclerViewHolder(
 	@LayoutRes layoutResId: Int,
 	bindingVariableId: Int? = null,
-	lifecycleOwner: LifecycleOwner?=null,
+	lifecycleOwner: LifecycleOwner,
 	parent: ViewGroup,
 	init: (V.() -> Unit)?
 ) = RecyclerViewHolder<T>(
@@ -103,9 +103,7 @@ private fun <T, V: ViewDataBinding> createRecyclerViewHolder(
 	) as V).also { binding ->
 		init?.invoke(binding)
 
-		lifecycleOwner?.let { lifecycleOwner->
-			binding.lifecycleOwner = lifecycleOwner
-		}
+		binding.lifecycleOwner = lifecycleOwner
 	}, bindingVariableId
 )
 

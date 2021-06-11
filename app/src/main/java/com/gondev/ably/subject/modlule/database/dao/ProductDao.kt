@@ -12,11 +12,11 @@ import com.gondev.ably.subject.modlule.network.response.Product
 interface ProductDao {
 
     @Insert(entity = ProductEntity::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(users: List<Product>)
+    suspend fun insertAll(products: List<Product>)
 
     @Query("SELECT * FROM product")
     fun pagingSource(): PagingSource<Int, ProductEntity>
 
-    @Query("DELETE FROM product WHERE favorite == 'false'")
+    @Query("DELETE FROM product WHERE favorite == 0")
     suspend fun clearAll()
 }

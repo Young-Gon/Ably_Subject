@@ -5,34 +5,40 @@
     tools:showIn="@layout/fragment_home">
 
     <data class="ProductItemBinding">
-        <import type="com.gondev.ably.subject.modlule.database.entify.ProductEntity" />
+        <import type="com.gondev.ably.subject.modlule.database.entify.IProductEntity" />
         <variable
             name="product"
-            type="ProductEntity" />
+            type="IProductEntity" />
 
         <variable
             name="favoriteClickListener"
-            type="com.gondev.ably.subject.util.ItemClickListener&lt;ProductEntity>" />
+            type="com.gondev.ably.subject.util.ItemClickListener&lt;IProductEntity>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="6dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        tools:layout_marginHorizontal="6dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:cardCornerRadius="8dp"
+            app:layout_constraintDimensionRatio="1:1.2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:adjustViewBounds="true"
+                android:minHeight="180dp"
+                android:scaleType="centerCrop"
+                app:imgUrl="@{product.image}"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -77,15 +83,17 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewDiscountRate"
             tools:text="[가격실화?!] 가성비 대박 쿨틀 텍스트 글자 길이 테스트" />
 
-        <Button
+        <Button style="@style/Widget.AblySubject.Button.OutlinedButton"
             android:id="@+id/textViewNewItem"
-            style="@style/Widget.AblySubject.Button.OutlinedButton"
             android:layout_width="32dp"
             android:layout_height="19dp"
             android:layout_marginTop="8dp"
             android:text="NEW"
             android:textColor="@color/black"
             android:textSize="10dp"
+            android:checkable="false"
+            android:clickable="false"
+            android:padding="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
             app:strokeColor="@color/brownish_grey"
@@ -98,6 +106,7 @@
             android:layout_marginStart="5dp"
             android:textColor="@color/brownish_grey"
             android:textSize="11sp"
+            android:text="@{@string/ordering(product.sell_count)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textViewNewItem"
             app:layout_constraintTop_toTopOf="@+id/textViewNewItem"
