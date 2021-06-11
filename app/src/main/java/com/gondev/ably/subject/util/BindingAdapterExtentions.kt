@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.bumptech.glide.integration.webp.decoder.WebpDrawable
+import com.bumptech.glide.integration.webp.decoder.WebpDrawableTransformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.gondev.ably.subject.R
@@ -56,13 +59,19 @@ interface OnPageScrolledListener {
 
 
 @BindingAdapter("imgUrl")
-fun ImageView.loadThumbnail(thumbnail: String?) {
-    if (thumbnail == null) {
+fun ImageView.loadThumbnail(src: String?) {
+    if (src == null) {
         return
     }
 
-    Glide.with(context).load(thumbnail)
-        //.apply(getGlideRequestOption(thumbnail))
+    var glide = Glide.with(context).load(src)
+
+    if (src.endsWith("gif"))
+        glide = glide.optionalTransform(WebpDrawable::class.java, WebpDrawableTransformation(
+            CenterCrop()
+        ))
+
+    glide.apply(getGlideRequestOption(src))
         //.transform(FitCenter(), RoundedCorners(30))
         .into(this)
 }
@@ -75,7 +84,7 @@ fun getGlideRequestOption(imageName: String) =
     RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .signature(ObjectKey(imageName))
-        .override(1024, 2048)
+        //.override(1024, 2048)
 
 
 

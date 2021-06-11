@@ -34,7 +34,7 @@
             android:paddingEnd="0dp"
             android:checkable="false"
             android:clickable="false"
-            android:text="@{vm.currentViewPage + `/` + vm.banners.size()}"
+            android:text="@{(vm.currentViewPage + 1) + `/` + vm.banners.size()}"
             android:backgroundTint="#33000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/viewpager"

@@ -6,6 +6,8 @@
 
     <data class="ProductItemBinding">
         <import type="com.gondev.ably.subject.modlule.database.entify.IProductEntity" />
+        <import type="android.view.View" />
+
         <variable
             name="product"
             type="IProductEntity" />
@@ -46,11 +48,12 @@
             android:id="@+id/textViewDiscountRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingEnd="4dp"
             android:text="@{(product.price == product.actual_price)? `` : @string/discount_rate((int)((float)(product.actual_price - product.price)*100f/(float)product.actual_price))}"
             android:textColor="@color/watermelon"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:paddingEnd="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/materialCardView"
             tools:text="10%" />
@@ -59,12 +62,13 @@
             android:id="@+id/textViewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@{@string/price_format(product.price)}"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/textViewDiscountRate"
-            app:layout_constraintTop_toTopOf="@+id/textViewDiscountRate"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView"
             tools:text="8,200" />
 
         <TextView
@@ -83,17 +87,21 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewDiscountRate"
             tools:text="[가격실화?!] 가성비 대박 쿨틀 텍스트 글자 길이 테스트" />
 
-        <Button style="@style/Widget.AblySubject.Button.OutlinedButton"
+        <Button
             android:id="@+id/textViewNewItem"
+            style="@style/Widget.AblySubject.Button.OutlinedButton"
             android:layout_width="32dp"
             android:layout_height="19dp"
             android:layout_marginTop="8dp"
-            android:text="NEW"
-            android:textColor="@color/black"
-            android:textSize="10dp"
+            android:layout_marginEnd="5dp"
             android:checkable="false"
             android:clickable="false"
             android:padding="0dp"
+            android:text="NEW"
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            android:visibility="@{product._new? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toStartOf="@+id/textViewOrdering"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
             app:strokeColor="@color/brownish_grey"
@@ -103,13 +111,23 @@
             android:id="@+id/textViewOrdering"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="1dp"
+            android:text="@{@string/ordering(product.sell_count)}"
             android:textColor="@color/brownish_grey"
             android:textSize="11sp"
-            android:text="@{@string/ordering(product.sell_count)}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/view2"
             app:layout_constraintStart_toEndOf="@+id/textViewNewItem"
-            app:layout_constraintTop_toTopOf="@+id/textViewNewItem"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
             tools:text="1,023개 구매중" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textViewOrdering"
+            app:layout_constraintTop_toTopOf="@id/textViewOrdering" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
