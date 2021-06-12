@@ -58,10 +58,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     return if (oldItem is ProductType
                             && newItem is ProductType
                             && oldItem.favorite != newItem.favorite)
-                        newItem.favorite
-                    else
-                        null
+                        newItem.favorite else null
                 }
+
             }) {
             // 베너
             addSubType<BannerType, BannerViewPagerBinding>(R.layout.item_header_viewpager, null) {

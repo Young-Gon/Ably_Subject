@@ -14,7 +14,7 @@ interface FavoritesRepository {
 class FavoritesRepositoryImpl @Inject constructor(
     private val productDao: ProductDao
 ):FavoritesRepository{
-    override val favoritesList = productDao.fetchAllByFavorites()
+    override val favoritesList = productDao.findAllByFavorites()
 
     override suspend fun updateProduct(product: ProductType) {
         productDao.update(product)

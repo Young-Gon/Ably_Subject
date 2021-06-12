@@ -6,7 +6,6 @@ import androidx.paging.LoadType.*
 import androidx.room.withTransaction
 import com.gondev.ably.subject.model.database.AppDatabase
 import com.gondev.ably.subject.model.database.entify.BannerEntity
-import com.gondev.ably.subject.model.database.entify.ProductEntity
 import com.gondev.ably.subject.model.dto.ProductType
 import com.gondev.ably.subject.model.network.ProductsAPI
 import timber.log.Timber
@@ -55,7 +54,7 @@ class ProductsListRemoteMediator(
                 PREPEND ->
                     return MediatorResult.Success(endOfPaginationReached = true)
                 APPEND ->
-                    lastKey ?: return MediatorResult.Success(endOfPaginationReached = false)
+                    lastKey ?: return MediatorResult.Success(endOfPaginationReached = true)
             }
 
             val (banners, productList) = loadKey?.let { api.fetchGetProductList(it) }?: api.fetchGetFirstProductList()
@@ -70,23 +69,16 @@ class ProductsListRemoteMediator(
                     bannerDao.insertAll(banners)
                 }
 
-                // 좋아요 표시한 정보가 사라지지 않도록
-                // 디비값으로 갱신 후 삽입
-                val favorites = productDao.findAllByFavorites()
-                val productEntityList= productList.map {  product ->
-                    ProductEntity(
-                        id = product.id,
-                        name = product.name,
-                        image = product.image,
-                        actual_price = product.actual_price,
-                        price = product.price,
-                        is_new = product.is_new,
-                        sell_count = product.sell_count,
-                        favorite = favorites.any { it.id == product.id }
-                    )
-                }
-
-                productDao.insertAll(productEntityList)
+                // '좋아요' 필드가 없는 Product POJO를
+                // OnConflictStrategy.REPLACE로 삽입 할 경우
+                // '좋아요' 표시가 default value로 업데이트 된다
+                // OnConflictStrategy.IGNORE로 삽입하고
+                // 삽입 실패한 행만 update하자
+                // https://tech.bakkenbaeck.com/post/room-insert-update
+                // onDelete = ForeignKey.CASCADE
+                // 인 경우에도 OnConflictStrategy.REPLACE를 사용 하면
+                // 안된다고 하니 주의 하자
+                productDao.insertOrUpdate(productList)
                 lastKey = productList.lastOrNull()?.id
             }
 
