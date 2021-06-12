@@ -1,14 +1,14 @@
 package com.gondev.ably.subject.repository
 
 import androidx.lifecycle.LiveData
-import com.gondev.ably.subject.modlule.database.dao.ProductDao
-import com.gondev.ably.subject.modlule.database.entify.ProductEntity
+import com.gondev.ably.subject.model.database.dao.ProductDao
+import com.gondev.ably.subject.model.dto.ProductType
 import javax.inject.Inject
 
 interface FavoritesRepository {
-    val favoritesList: LiveData<List<ProductEntity>>
+    val favoritesList: LiveData<List<ProductType>>
 
-    suspend fun updateProduct(product: ProductEntity)
+    suspend fun updateProduct(product: ProductType)
 }
 
 class FavoritesRepositoryImpl @Inject constructor(
@@ -16,7 +16,7 @@ class FavoritesRepositoryImpl @Inject constructor(
 ):FavoritesRepository{
     override val favoritesList = productDao.fetchAllByFavorites()
 
-    override suspend fun updateProduct(product: ProductEntity) {
+    override suspend fun updateProduct(product: ProductType) {
         productDao.update(product)
     }
 }

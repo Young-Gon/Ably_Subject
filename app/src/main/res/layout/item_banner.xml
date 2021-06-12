@@ -6,7 +6,7 @@
     <data class="BannerItemBinding">
         <variable
             name="banner"
-            type="com.gondev.ably.subject.modlule.database.entify.BannerEntity" />
+            type="com.gondev.ably.subject.model.database.entify.BannerEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

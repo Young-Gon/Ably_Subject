@@ -4,14 +4,13 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.TerminalSeparatorType
 import androidx.paging.cachedIn
 import androidx.paging.insertHeaderItem
-import androidx.paging.map
-import com.gondev.ably.subject.modlule.database.entify.BannerType
-import com.gondev.ably.subject.modlule.database.entify.ListType
-import com.gondev.ably.subject.modlule.database.entify.ProductEntity
-import com.gondev.ably.subject.modlule.database.entify.ProductType
+import com.gondev.ably.subject.model.dto.BannerType
+import com.gondev.ably.subject.model.dto.ListType
+import com.gondev.ably.subject.model.dto.ProductType
 import com.gondev.ably.subject.repository.FavoritesRepository
 import com.gondev.ably.subject.repository.ProductsRepository
 import com.gondev.ably.subject.util.ItemClickListener
@@ -29,7 +28,7 @@ class HomeViewModel @Inject constructor(
 
     val banners by productsRepository::banners
     val productList = productsRepository.pager.flow.map { pagingData ->
-        pagingData.map<ProductEntity, ListType> { ProductType(it) }
+        (pagingData as PagingData<ListType>)
             .insertHeaderItem(TerminalSeparatorType.SOURCE_COMPLETE, BannerType())
     }.cachedIn(viewModelScope)
 
@@ -46,7 +45,7 @@ class HomeViewModel @Inject constructor(
      */
     override fun onItemClicked(view: View, item: ProductType) {
         viewModelScope.launch {
-            favoritesRepository.updateProduct(item.productEntity.copy(favorite = !item.favorite))
+            favoritesRepository.updateProduct(item.copy(favorite = !item.favorite))
         }
     }
 }

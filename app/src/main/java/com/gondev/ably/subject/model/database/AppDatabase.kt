@@ -1,11 +1,11 @@
-package com.gondev.ably.subject.modlule.database
+package com.gondev.ably.subject.model.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.gondev.ably.subject.modlule.database.dao.BannerDao
-import com.gondev.ably.subject.modlule.database.dao.ProductDao
-import com.gondev.ably.subject.modlule.database.entify.BannerEntity
-import com.gondev.ably.subject.modlule.database.entify.ProductEntity
+import com.gondev.ably.subject.model.database.dao.BannerDao
+import com.gondev.ably.subject.model.database.dao.ProductDao
+import com.gondev.ably.subject.model.database.entify.BannerEntity
+import com.gondev.ably.subject.model.database.entify.ProductEntity
 
 /**
  * 데이터베이스 모듈입니다

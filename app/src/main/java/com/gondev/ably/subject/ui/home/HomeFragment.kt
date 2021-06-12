@@ -14,10 +14,10 @@ import com.gondev.ably.subject.databinding.BannerItemBinding
 import com.gondev.ably.subject.databinding.BannerViewPagerBinding
 import com.gondev.ably.subject.databinding.HomeFragmentBinding
 import com.gondev.ably.subject.databinding.ProductItemBinding
-import com.gondev.ably.subject.modlule.database.entify.BannerEntity
-import com.gondev.ably.subject.modlule.database.entify.BannerType
-import com.gondev.ably.subject.modlule.database.entify.ListType
-import com.gondev.ably.subject.modlule.database.entify.ProductType
+import com.gondev.ably.subject.model.database.entify.BannerEntity
+import com.gondev.ably.subject.model.dto.BannerType
+import com.gondev.ably.subject.model.dto.ListType
+import com.gondev.ably.subject.model.dto.ProductType
 import com.gondev.ably.subject.util.DataBindingListAdapter
 import com.gondev.ably.subject.util.MultiViewDataBindingListAdapter
 import com.gondev.ably.subject.util.dataBinding
@@ -90,6 +90,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.recyclerview.adapter = adapter
 
+        // 베너는 좌우 2칸
         (binding.recyclerview.layoutManager as GridLayoutManager).spanSizeLookup =
             object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
@@ -97,20 +98,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             }
 
+        // 아이템 간격
         binding.recyclerview.addItemDecoration(
             GridSpacingItemDecorator(2, 12.dp(resources), true, 1)
         )
 
+        // 데이터 삽입
         lifecycleScope.launch {
             viewModel.productList.collectLatest {
                 adapter.submitData(it)
             }
         }
 
+        // 네트워크 상태 감시
         adapter.addLoadStateListener { state ->
             binding.swiperefreshlayout.isRefreshing = state.refresh is LoadState.Loading
         }
 
+        // 리프레쉬
         binding.swiperefreshlayout.setOnRefreshListener {
             adapter.refresh()
         }

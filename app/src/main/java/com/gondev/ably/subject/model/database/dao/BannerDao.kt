@@ -1,12 +1,12 @@
-package com.gondev.ably.subject.modlule.database.dao
+package com.gondev.ably.subject.model.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.gondev.ably.subject.modlule.database.entify.BannerEntity
-import com.gondev.ably.subject.modlule.network.response.Banner
+import com.gondev.ably.subject.model.database.entify.BannerEntity
+import com.gondev.ably.subject.model.network.response.Banner
 
 @Dao
 interface BannerDao {

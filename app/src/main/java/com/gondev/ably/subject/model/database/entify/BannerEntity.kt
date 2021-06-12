@@ -1,4 +1,4 @@
-package com.gondev.ably.subject.modlule.database.entify
+package com.gondev.ably.subject.model.database.entify
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

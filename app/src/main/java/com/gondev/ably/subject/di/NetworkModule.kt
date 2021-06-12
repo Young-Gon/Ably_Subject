@@ -2,7 +2,7 @@ package com.gondev.ably.subject.di
 
 import android.app.Application
 import com.gondev.ably.subject.BuildConfig
-import com.gondev.ably.subject.modlule.network.ProductsAPI
+import com.gondev.ably.subject.model.network.ProductsAPI
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

@@ -5,7 +5,7 @@
     tools:showIn="@layout/fragment_home">
 
     <data class="ProductItemBinding">
-        <import type="com.gondev.ably.subject.modlule.database.entify.ProductType" />
+        <import type="com.gondev.ably.subject.model.dto.ProductType" />
         <import type="android.view.View" />
 
         <variable

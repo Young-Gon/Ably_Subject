@@ -4,15 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.paging.*
 import androidx.paging.LoadType.*
 import androidx.room.withTransaction
-import com.gondev.ably.subject.modlule.database.AppDatabase
-import com.gondev.ably.subject.modlule.database.entify.BannerEntity
-import com.gondev.ably.subject.modlule.database.entify.ProductEntity
-import com.gondev.ably.subject.modlule.network.ProductsAPI
+import com.gondev.ably.subject.model.database.AppDatabase
+import com.gondev.ably.subject.model.database.entify.BannerEntity
+import com.gondev.ably.subject.model.database.entify.ProductEntity
+import com.gondev.ably.subject.model.dto.ProductType
+import com.gondev.ably.subject.model.network.ProductsAPI
 import timber.log.Timber
 import javax.inject.Inject
 
 interface ProductsRepository{
-    val pager: Pager<Int, ProductEntity>
+    val pager: Pager<Int, ProductType>
     val banners: LiveData<List<BannerEntity>>
 }
 
@@ -38,7 +39,7 @@ class ProductsRepositoryImpl  @Inject constructor(
 class ProductsListRemoteMediator(
     private val database: AppDatabase,
     private val api: ProductsAPI,
-): RemoteMediator<Int, ProductEntity>() {
+): RemoteMediator<Int, ProductType>() {
     private val productDao = database.getProductDao()
     private val bannerDao = database.getBannerDao()
 
@@ -46,13 +47,13 @@ class ProductsListRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, ProductEntity>
+        state: PagingState<Int, ProductType>
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
                 REFRESH -> null
                 PREPEND ->
-                    return MediatorResult.Success(endOfPaginationReached = true).also { Timber.v("PREPEND") }
+                    return MediatorResult.Success(endOfPaginationReached = true)
                 APPEND ->
                     lastKey ?: return MediatorResult.Success(endOfPaginationReached = false)
             }

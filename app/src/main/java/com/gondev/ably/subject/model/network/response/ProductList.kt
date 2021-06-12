@@ -1,6 +1,5 @@
-package com.gondev.ably.subject.modlule.network.response
+package com.gondev.ably.subject.model.network.response
 
-import com.gondev.ably.subject.modlule.database.entify.ProductEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

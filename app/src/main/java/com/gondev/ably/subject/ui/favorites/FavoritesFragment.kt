@@ -9,7 +9,7 @@ import com.gondev.ably.subject.BR
 import com.gondev.ably.subject.R
 import com.gondev.ably.subject.databinding.FavoritesFragmentBinding
 import com.gondev.ably.subject.databinding.ProductItemBinding
-import com.gondev.ably.subject.modlule.database.entify.ProductType
+import com.gondev.ably.subject.model.dto.ProductType
 import com.gondev.ably.subject.ui.home.GridSpacingItemDecorator
 import com.gondev.ably.subject.util.DataBindingListAdapter
 import com.gondev.ably.subject.util.dataBinding

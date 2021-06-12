@@ -2,7 +2,7 @@ package com.gondev.ably.subject.di
 
 import android.app.Application
 import androidx.room.Room
-import com.gondev.ably.subject.modlule.database.AppDatabase
+import com.gondev.ably.subject.model.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

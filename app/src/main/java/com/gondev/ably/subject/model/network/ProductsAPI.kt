@@ -1,6 +1,6 @@
-package com.gondev.ably.subject.modlule.network
+package com.gondev.ably.subject.model.network
 
-import com.gondev.ably.subject.modlule.network.response.ProductList
+import com.gondev.ably.subject.model.network.response.ProductList
 import retrofit2.http.GET
 import retrofit2.http.Query
 
