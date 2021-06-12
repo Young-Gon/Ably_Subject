@@ -1,7 +1,6 @@
 package com.gondev.ably.subject.ui.home
 
 import android.view.View
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -27,18 +26,11 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel(), ItemClickListener<ProductType> {
 
     val banners by productsRepository::banners
+
     val productList = productsRepository.pager.flow.map { pagingData ->
         (pagingData as PagingData<ListType>)
             .insertHeaderItem(TerminalSeparatorType.SOURCE_COMPLETE, BannerType())
     }.cachedIn(viewModelScope)
-
-    /**
-     * banner ViewPager의 현재 페이지
-     */
-    val currentViewPage = MutableLiveData(0)
-    fun onPageSelected(position: Int) {
-        currentViewPage.value = position
-    }
 
     /**
      * 좋아요 클릭!

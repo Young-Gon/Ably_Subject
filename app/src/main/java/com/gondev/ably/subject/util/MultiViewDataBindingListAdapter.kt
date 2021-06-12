@@ -51,7 +51,6 @@ class SubTypeRegister<BaseType : Any> internal constructor() {
     val subclasses: MutableMap<KClass<out BaseType>, SubclassAdapterItem> = mutableMapOf()
 
     /**
-     * # subType
      * [MultiViewDataBindingListAdapter]에서 하위 항목을 추가할 때 사용합니다
      * @param ItemType 추가할 아이템 타입 (BaseType의 하위 타입)
      * @param Binding 해당 아이템 타입을 사용할 [ViewDataBinding]의 하위 타입

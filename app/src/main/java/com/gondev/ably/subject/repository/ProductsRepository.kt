@@ -20,6 +20,7 @@ class ProductsRepositoryImpl  @Inject constructor(
     database: AppDatabase,
     api: ProductsAPI,
 ):ProductsRepository {
+
     private val productDao = database.getProductDao()
     private val bannerDao = database.getBannerDao()
 
@@ -39,9 +40,9 @@ class ProductsListRemoteMediator(
     private val database: AppDatabase,
     private val api: ProductsAPI,
 ): RemoteMediator<Int, ProductType>() {
+
     private val productDao = database.getProductDao()
     private val bannerDao = database.getBannerDao()
-
     private var lastKey: Int? = null
 
     override suspend fun load(
@@ -57,7 +58,7 @@ class ProductsListRemoteMediator(
                     lastKey ?: return MediatorResult.Success(endOfPaginationReached = true)
             }
 
-            val (banners, productList) = loadKey?.let { api.fetchGetProductList(it) }?: api.fetchGetFirstProductList()
+            val (banners, productList) = loadKey?.let { api.fetchGetProductList(it) } ?: api.fetchGetFirstProductList()
 
             database.withTransaction {
                 // 베너 추가

@@ -22,7 +22,6 @@ import com.gondev.ably.subject.model.database.entify.ProductEntity
     exportSchema = false
 )
 abstract class AppDatabase: RoomDatabase() {
-
     abstract fun getProductDao(): ProductDao
     abstract fun getBannerDao(): BannerDao
 }
