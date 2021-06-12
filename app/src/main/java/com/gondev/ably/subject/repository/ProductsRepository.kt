@@ -34,7 +34,7 @@ class ProductsRepositoryImpl  @Inject constructor(
     override val banners = bannerDao.findAll()
 }
 
-@OptIn(ExperimentalPagingApi::class)
+@ExperimentalPagingApi
 class ProductsListRemoteMediator(
     private val database: AppDatabase,
     private val api: ProductsAPI,
@@ -42,36 +42,35 @@ class ProductsListRemoteMediator(
     private val productDao = database.getProductDao()
     private val bannerDao = database.getBannerDao()
 
+    private var lastKey: Int? = null
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ProductEntity>
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
-                REFRESH -> null.also { Timber.v("REFRESH") }
+                REFRESH -> null
                 PREPEND ->
                     return MediatorResult.Success(endOfPaginationReached = true).also { Timber.v("PREPEND") }
-                APPEND -> {
-                    val lastItem = state.lastItemOrNull()
-                        ?: return MediatorResult.Success(endOfPaginationReached = false)
-
-                    lastItem.id
-                }
+                APPEND ->
+                    lastKey ?: return MediatorResult.Success(endOfPaginationReached = false)
             }
-            Timber.v("loadkey=$loadKey")
 
             val (banners, productList) = loadKey?.let { api.fetchGetProductList(it) }?: api.fetchGetFirstProductList()
 
             database.withTransaction {
                 // 베너 추가
-                if (loadType == LoadType.REFRESH) {
-                    Timber.e("clear db")
+                if (loadType == REFRESH) {
+                    // 디비 에서 데이터 삭제
                     productDao.clearAll()
                     bannerDao.clearAll()
                     
                     bannerDao.insertAll(banners)
                 }
 
+                // 좋아요 표시한 정보가 사라지지 않도록
+                // 디비값으로 갱신 후 삽입
                 val favorites = productDao.findAllByFavorites()
                 val productEntityList= productList.map {  product ->
                     ProductEntity(
@@ -87,9 +86,9 @@ class ProductsListRemoteMediator(
                 }
 
                 productDao.insertAll(productEntityList)
+                lastKey = productList.lastOrNull()?.id
             }
 
-            Timber.v("productList.size=${productList.size}, endOfPaginationReached = ${productList.size < 10}")
             MediatorResult.Success(endOfPaginationReached = productList.size < 10)
         } catch (e: Exception) {
             Timber.e(e)

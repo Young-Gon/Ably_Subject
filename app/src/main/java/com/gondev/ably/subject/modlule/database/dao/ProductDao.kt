@@ -12,7 +12,7 @@ interface ProductDao {
     fun pagingSource(): PagingSource<Int, ProductEntity>
 
     @Query("SELECT * FROM product WHERE favorite == 1")
-    fun FetchfindAllByFavorites(): LiveData<List<ProductEntity>>
+    fun fetchAllByFavorites(): LiveData<List<ProductEntity>>
 
     @Query("SELECT * FROM product WHERE favorite == 1")
     suspend fun findAllByFavorites(): List<ProductEntity>
