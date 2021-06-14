@@ -111,11 +111,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // 네트워크 상태 감시
         adapter.addLoadStateListener { state ->
-            binding.swiperefreshlayout.isRefreshing = state.refresh is LoadState.Loading
+            binding.swipeRefreshLayout.isRefreshing = state.refresh is LoadState.Loading
         }
 
         // 리프레쉬
-        binding.swiperefreshlayout.setOnRefreshListener {
+        binding.swipeRefreshLayout.setOnRefreshListener {
             adapter.refresh()
         }
     }

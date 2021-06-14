@@ -97,7 +97,7 @@
             android:textColor="@color/brownish_grey"
             android:textSize="11sp"
             android:textStyle="normal"
-            android:text="@{product.id+`: `+product.name}"
+            android:text="@{product.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewDiscountRate"
