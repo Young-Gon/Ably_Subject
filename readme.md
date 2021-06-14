@@ -46,11 +46,11 @@
  ![UI 구조](./screenshot/ui_structure.png)
  - 데이터 구조
    - [ProductRespone](./app/src/main/java/com/gondev/ably/subject/model/network/response/ProductList.kt#L8): 네트워크로 부터 가저온 상품 정보
-   - [ProductEntity](./app/src/main/java/com/gondev/ably/subject/model/database/entify/ProductEntity.kt#L8): 상품 테이블 엔티티
+   - [ProductEntity](./app/src/main/java/com/gondev/ably/subject/model/database/entify/ProductEntity.kt#L14): 상품 테이블 엔티티
    - [ProductType](./app/src/main/java/com/gondev/ably/subject/model/dto/ListType.kt#L23): 상품 정보를 베너와 함께 홈화면에 보여주기위한 POJO
 
    - [BannerRespone](./app/src/main/java/com/gondev/ably/subject/model/network/response/ProductList.kt#L15): 네트워크로 부터 가저온 베너 정보
-   - [BannerEntity](./app/src/main/java/com/gondev/ably/subject/model/database/entify/BannerEntity.kt#L7): 베너 테이블 엔티티
+   - [BannerEntity](./app/src/main/java/com/gondev/ably/subject/model/database/entify/BannerEntity.kt#L11): 베너 테이블 엔티티
    - [BannerType](./app/src/main/java/com/gondev/ably/subject/model/dto/ListType.kt#L34): 베너 뷰페이저를 홈 화면에서 보여주기위해 삽입하는 일종의 해더, [BannerEntity](./app/src/main/java/com/gondev/ably/subject/model/database/entify/BannerEntity.kt#L7)로 하위 베너 이미지 아이템을 표시한다
 
 ## 자체 평가
