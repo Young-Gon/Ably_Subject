@@ -5,20 +5,24 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class ProductList(
-    val banners: List<Banner> = emptyList(),
+data class ProductListResponse(
+    val banners: List<BannerResponse> = emptyList(),
     @SerialName("goods")
-    val products: List<Product>,
+    val products: List<ProductResponse>,
 )
 
 @Serializable
-data class Banner(
+data class BannerResponse(
     val id: Int,
     val image: String,
 )
 
+/**
+ * 네트워크 결과값입니다
+ * **좋아요** 항목이 빠저 있습니다
+ */
 @Serializable
-data class Product(
+data class ProductResponse(
     val id: Int,
     val name: String,
     val image: String,

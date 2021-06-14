@@ -58,7 +58,7 @@ class ProductsListRemoteMediator(
                     lastKey ?: return MediatorResult.Success(endOfPaginationReached = true)
             }
 
-            val (banners, productList) = loadKey?.let { api.fetchGetProductList(it) } ?: api.fetchGetFirstProductList()
+            val (banners, productList) = loadKey?.let { api.requestGetProductList(it) } ?: api.requestGetFirstProductList()
 
             database.withTransaction {
                 // 베너 추가
@@ -70,7 +70,7 @@ class ProductsListRemoteMediator(
                     bannerDao.insertAll(banners)
                 }
 
-                // '좋아요' 필드가 없는 Product POJO를
+                // '좋아요' 필드가 없는 ProductResponse POJO를
                 // OnConflictStrategy.REPLACE로 삽입 할 경우
                 // '좋아요' 표시가 default value로 업데이트 된다
                 // OnConflictStrategy.IGNORE로 삽입하고

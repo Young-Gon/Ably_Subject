@@ -1,13 +1,13 @@
 package com.gondev.ably.subject.model.network
 
-import com.gondev.ably.subject.model.network.response.ProductList
+import com.gondev.ably.subject.model.network.response.ProductListResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ProductsAPI {
     @GET("api/home")
-    suspend fun fetchGetFirstProductList(): ProductList
+    suspend fun requestGetFirstProductList(): ProductListResponse
 
     @GET("api/home/goods")
-    suspend fun fetchGetProductList(@Query("lastId") lastId: Int): ProductList
+    suspend fun requestGetProductList(@Query("lastId") lastId: Int): ProductListResponse
 }
