@@ -29,7 +29,7 @@ interface ProductDao {
     suspend fun clearAll()
 
     @Transaction
-    suspend fun insertOrUpdate(products: List<ProductResponse>) {
+    suspend fun  insertOrUpdate(products: List<ProductResponse>) {
         val updateList = mutableListOf<ProductResponse>()
         insertAll(products).forEachIndexed { index, insertedId ->
             if(insertedId == -1L)
