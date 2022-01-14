@@ -35,6 +35,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
                 oldItem == newItem
         }){
             favoriteClickListener = viewModel
+            favoriteClickListener.onItemClicked()
         }
 
         binding.recyclerview.addItemDecoration(GridSpacingItemDecorator(2, 12.dp(resources),true,0))
