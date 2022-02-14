@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data class="BannerItemBinding">
+
         <variable
             name="banner"
             type="com.gondev.ably.subject.model.database.entify.BannerEntity" />

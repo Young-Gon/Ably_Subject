@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.home.HomeFragment">
 
     <data class="HomeFragmentBinding">
+
         <variable
             name="vm"
             type="com.gondev.ably.subject.ui.home.HomeViewModel" />
     </data>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -19,10 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            app:hasFixedSize="@{true}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
-            app:hasFixedSize="@{true}"
-            tools:paddingHorizontal="6dp"
-            tools:listitem="@layout/item_product"/>
+            tools:listitem="@layout/item_product"
+            tools:paddingHorizontal="6dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
