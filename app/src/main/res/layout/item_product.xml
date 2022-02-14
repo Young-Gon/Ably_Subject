@@ -5,7 +5,9 @@
     tools:showIn="@layout/fragment_home">
 
     <data class="ProductItemBinding">
+
         <import type="com.gondev.ably.subject.model.dto.ProductType" />
+
         <import type="android.view.View" />
 
         <variable
@@ -45,20 +47,21 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <Button style="@style/Widget.AblySubject.Button.TextButton.Capsule"
+        <Button
             android:id="@+id/floatingActionButton"
+            style="@style/Widget.AblySubject.Button.TextButton.Capsule"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="12dp"
             android:elevation="1dp"
-            app:checked="@{product.favorite}"
             android:onClick="@{(v)->favoriteClickListener.onItemClicked(v, product)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:padding="12dp"
+            app:checked="@{product.favorite}"
             app:icon="@drawable/selector_zzim"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:iconTint="@null"/>
+            app:iconTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textViewDiscountRate"
@@ -94,10 +97,10 @@
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="@{product.name}"
             android:textColor="@color/brownish_grey"
             android:textSize="11sp"
             android:textStyle="normal"
-            android:text="@{product.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewDiscountRate"
