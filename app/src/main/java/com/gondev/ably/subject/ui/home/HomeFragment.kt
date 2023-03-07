@@ -26,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -37,16 +36,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.vm = viewModel
-        val adapter = MultiViewDataBindingListAdapter(viewLifecycleOwner,
+        val adapter = MultiViewDataBindingListAdapter(
+            viewLifecycleOwner,
             object : DiffUtil.ItemCallback<ListType>() {
                 override fun areItemsTheSame(oldItem: ListType, newItem: ListType): Boolean {
-                    val isSameHeaderItem = oldItem is BannerType
-                            && newItem is BannerType
-                            && oldItem.id == newItem.id
+                    val isSameHeaderItem = oldItem is BannerType &&
+                        newItem is BannerType &&
+                        oldItem.id == newItem.id
 
-                    val isSameProductItem = oldItem is ProductType
-                            && newItem is ProductType
-                            && oldItem.id == newItem.id
+                    val isSameProductItem = oldItem is ProductType &&
+                        newItem is ProductType &&
+                        oldItem.id == newItem.id
 
                     return isSameHeaderItem || isSameProductItem
                 }
@@ -55,16 +55,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     oldItem == newItem
 
                 override fun getChangePayload(oldItem: ListType, newItem: ListType): Any? {
-                    return if (oldItem is ProductType
-                            && newItem is ProductType
-                            && oldItem.favorite != newItem.favorite)
-                        newItem.favorite else null
+                    return if (oldItem is ProductType &&
+                        newItem is ProductType &&
+                        oldItem.favorite != newItem.favorite
+                    ) {
+                        newItem.favorite 
+                    }else null
                 }
-
-            }) {
+            }
+        ) {
             // 베너
             addSubType<BannerType, BannerViewPagerBinding>(R.layout.item_header_viewpager, null) {
-
                 vm = viewModel
                 viewpager.adapter = DataBindingListAdapter<BannerEntity, BannerItemBinding>(
                     viewLifecycleOwner,
@@ -74,9 +75,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         override fun areItemsTheSame(oldItem: BannerEntity, newItem: BannerEntity) =
                             oldItem.id == newItem.id
 
-                        override fun areContentsTheSame(oldItem: BannerEntity, newItem: BannerEntity) =
+                        override fun areContentsTheSame(
+                            oldItem: BannerEntity,
+                            newItem: BannerEntity
+                        ) =
                             oldItem == newItem
-
                     }
                 )
             }

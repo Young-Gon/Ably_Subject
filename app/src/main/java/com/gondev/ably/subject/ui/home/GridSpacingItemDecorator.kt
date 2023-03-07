@@ -10,8 +10,13 @@ class GridSpacingItemDecorator(
     private val spacing: Int,
     private val includeEdge: Boolean,
     private val headerNum: Int
-): ItemDecoration() {
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+) : ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         val position = parent.getChildAdapterPosition(view) - headerNum // item position
         if (position >= 0) {
             val column = position % spanCount // item column
