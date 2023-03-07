@@ -25,18 +25,29 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        binding.recyclerview.adapter = DataBindingListAdapter<ProductType, ProductItemBinding>(viewLifecycleOwner,
-        R.layout.item_product, BR.product,
-        object : DiffUtil.ItemCallback<ProductType>(){
-            override fun areItemsTheSame(oldItem: ProductType, newItem: ProductType) =
-                oldItem.id == newItem.id
+        binding.recyclerview.adapter =
+            DataBindingListAdapter<ProductType, ProductItemBinding>(
+                viewLifecycleOwner,
+                R.layout.item_product,
+                BR.product,
+                object : DiffUtil.ItemCallback<ProductType>() {
+                    override fun areItemsTheSame(oldItem: ProductType, newItem: ProductType) =
+                        oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: ProductType, newItem: ProductType)=
-                oldItem == newItem
-        }){
-            favoriteClickListener = viewModel
-        }
+                    override fun areContentsTheSame(oldItem: ProductType, newItem: ProductType) =
+                        oldItem == newItem
+                }
+            ) {
+                favoriteClickListener = viewModel
+            }
 
-        binding.recyclerview.addItemDecoration(GridSpacingItemDecorator(2, 12.dp(resources),true,0))
+        binding.recyclerview.addItemDecoration(
+            GridSpacingItemDecorator(
+                2,
+                12.dp(resources),
+                true,
+                0
+            )
+        )
     }
 }
