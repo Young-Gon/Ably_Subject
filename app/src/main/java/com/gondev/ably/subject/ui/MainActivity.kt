@@ -1,7 +1,7 @@
 package com.gondev.ably.subject.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val appBarConfiguration: AppBarConfiguration = AppBarConfiguration(
         setOf(
             R.id.fragment_home,
-            R.id.fragment_favorite,
+            R.id.fragment_favorite
         )
     )
 

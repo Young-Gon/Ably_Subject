@@ -18,11 +18,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val productsRepository: ProductsRepository,
-    private val favoritesRepository: FavoritesRepository,
+    private val favoritesRepository: FavoritesRepository
 ) : ViewModel(), ItemClickListener<ProductType> {
 
     val banners by productsRepository::banners
